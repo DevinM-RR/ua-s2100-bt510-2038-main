@@ -1,0 +1,20 @@
+{
+    "description": "Regal Beloit BT510 Sensor Device Firmware",
+    "latest": "0.0.1",
+    "releases":
+	[
+		{
+            "build": "20210222",
+            "version": "0.0.1",
+            "url": ""
+        }, {
+            "build": "20210222",
+            "version": "0.0.1b",
+            "url": ""
+        }, {
+            "build": "20210222",
+            "version": "0.0.1c",
+            "url": ""
+        },
+    ]
+}

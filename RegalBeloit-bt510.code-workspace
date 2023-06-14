@@ -1,0 +1,48 @@
+{
+	"folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\zephyr"
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "printk.h": "c",
+            "toolchain.h": "c",
+            "zephyr.h": "c",
+            "kernel.h": "c",
+            "sched_priq.h": "c",
+            "rb.h": "c",
+            "types.h": "c",
+            "bluetooth.h": "c",
+            "stddef.h": "c",
+            "initializer_list": "c",
+            "type_traits": "c",
+            "xutility": "c",
+            "device.h": "c",
+            "modem_receiver.h": "c",
+            "hl7800.h": "c",
+            "buf.h": "c",
+            "led_strip.h": "c",
+            "oob_ble.h": "c",
+            "byteorder.h": "c",
+            "ios": "c",
+            "lte.h": "c",
+            "functional": "c",
+            "system_error": "c",
+            "xtr1common": "c",
+            "algorithm": "c",
+            "array": "c",
+            "vector": "c",
+            "xstring": "c",
+            "list": "c",
+            "xhash": "c",
+            "littlefs.h": "c",
+            "xmemory": "c"
+        },
+        "terminal.integrated.copyOnSelection": true,
+        "terminal.integrated.shell.windows": "C:\\WINDOWS\\sysnative\\cmd.exe"
+    }
+}

@@ -1,0 +1,225 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  // IMPORTANT:
+  //   Many of these tasks depend on ${config:<varname>} variables
+  //   from the settings.json file. Be sure to define values for
+  //   each of these in settings.json before running the task.
+  //   example: "app_version" in settings.json sets ${config:app_version} in this file
+  "version": "2.0.0",
+  "windows": {
+    "options": {
+      "shell": {
+        "executable": "cmd.exe",
+        "args": ["/d", "/c"]
+      }
+    }
+  },
+  "inputs": [
+    {
+        "id": "buildApp",
+        "description": "Select an app to build",
+        "default": "apps/bt510",
+        "type": "pickString",
+        "options": [
+            "apps/bt510",
+            "bootloader/mcuboot/boot/zephyr"
+        ]
+    }
+  ],
+  "tasks": [
+    {
+      "label": "build app",
+      "type": "shell",
+      "command": "west build -b ${config:board_target} -d ${workspaceRoot}/build/apps/${config:board_target} ${workspaceRoot}/apps/bt510 -- -DBOARD_DIR=${workspaceRoot}/boards/arm/${config:board_target} -DCONF_FILE=${workspaceRoot}/apps/bt510/prj.${config:board_target}.conf  -Dmcuboot_CONF_FILE=${workspaceRoot}/apps/bt510/mcuboot.prj.${config:board_target}.conf -DCONFIG_MCUBOOT_IMAGE_VERSION=\\\"${config:app_version}\\\"",
+      "windows": {
+        "command": "${config:setup_static_partitions_windows} && ..\\zephyr\\zephyr-env.cmd && west build -b ${config:board_target} -d ${workspaceRoot}\\build\\apps\\${config:board_target} ${workspaceRoot}\\apps\\bt510 -- -DBOARD_DIR=${workspaceRoot}\\boards\\arm\\${config:board_target} -DCONF_FILE=${workspaceRoot}\\apps\\bt510\\prj.${config:board_target}.conf -Dmcuboot_CONF_FILE=${workspaceRoot}\\apps\\bt510\\mcuboot.prj.${config:board_target}.conf -DCONFIG_MCUBOOT_IMAGE_VERSION=\\\"${config:app_version}\\\""
+      },
+      "dependsOn": [
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "build app no mcuboot",
+      "type": "shell",
+      "command": "west build -b ${config:board_target} -d ${workspaceRoot}/build/apps/${config:board_target} ${workspaceRoot}/apps/bt510 -- -DBOARD_DIR=${workspaceRoot}/boards/arm/${config:board_target} -DCONF_FILE=${workspaceRoot}/apps/bt510/prj.${config:board_target}.conf",
+      "windows": {
+        "command": "${config:clear_static_partitions_windows} && ..\\zephyr\\zephyr-env.cmd && west build -b ${config:board_target} -d ${workspaceRoot}\\build\\apps\\${config:board_target} ${workspaceRoot}\\apps\\bt510 -- -DBOARD_DIR=${workspaceRoot}\\boards\\arm\\${config:board_target} -DCONF_FILE=${workspaceRoot}\\apps\\bt510\\prj.${config:board_target}.conf"
+      },
+      "dependsOn": [
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "build app menuconfig",
+      "type": "shell",
+      "command": "west build -b ${config:board_target} -d ${workspaceRoot}/build/apps/${config:board_target} ${workspaceRoot}/apps/bt510 --target menuconfig -- -DBOARD_DIR=${workspaceRoot}/boards/arm/${config:board_target} -DCONF_FILE=${workspaceRoot}/apps/bt510/prj.${config:board_target}.conf",
+      "windows": {
+        "command": "..\\zephyr\\zephyr-env.cmd && west build -b ${config:board_target} -d ${workspaceRoot}/build/apps/${config:board_target} ${workspaceRoot}/apps/bt510 --target menuconfig -- -DBOARD_DIR=${workspaceRoot}/boards/arm/${config:board_target} -DCONF_FILE=${workspaceRoot}/apps/bt510/prj.${config:board_target}.conf"
+      },
+      "dependsOn": [
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "quick build app",
+      "type": "shell",
+      "command": "west build -p -b ${config:board_target} -d ${workspaceRoot}/build/apps/${config:board_target} ${workspaceRoot}/apps/bt510 -- -DBOARD_DIR=${workspaceRoot}/boards/arm/${config:board_target} -DCONF_FILE=${workspaceRoot}/apps/bt510/prj.${config:board_target}.conf",
+      "windows": {
+        "command": "..\\zephyr\\zephyr-env.cmd && west build -b ${config:board_target} -d ${workspaceRoot}\\build\\apps\\${config:board_target} ${workspaceRoot}\\apps\\bt510"
+      },
+      "dependsOn": [
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "flash app",
+      "type": "shell",
+      "command": "west flash -d ${workspaceRoot}/build/apps/${config:board_target}",
+      "windows": {
+        "command": "..\\zephyr\\zephyr-env.cmd && west flash -d ${workspaceRoot}\\build\\apps\\${config:board_target}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "command": "west build -t clean -d ${workspaceRoot}/build/apps/${config:board_target}",
+      "windows": {
+        "command": "..\\zephyr\\zephyr-env.cmd && west build -t clean -d ${workspaceRoot}\\build\\apps\\${config:board_target}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "pristine",
+      "type": "shell",
+      "command": "west build -t pristine -d ${workspaceRoot}/build/apps/${config:board_target}",
+      "windows": {
+        "command": "..\\zephyr\\zephyr-env.cmd && west build -t pristine -d ${workspaceRoot}\\build\\apps\\${config:board_target}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "rom_report",
+      "type": "shell",
+      "command": "west build -d ${workspaceRoot}/build/${input:buildApp} --target rom_report > ${workspaceRoot}/build/${input:buildApp}/rom_report",
+      "windows": {
+        "command": "..\\zephyr\\zephyr-env.cmd && west build -d ${workspaceRoot}\\build\\${input:buildApp} --target rom_report > ${workspaceRoot}\\build\\${input:buildApp}\\rom_report"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "ram_report",
+      "type": "shell",
+      "command": "west build -d ${workspaceRoot}/build/${input:buildApp} --target ram_report > ${workspaceRoot}/build/${input:buildApp}/ram_report",
+      "windows": {
+        "command": "..\\zephyr\\zephyr-env.cmd && west build -d ${workspaceRoot}\\build\\${input:buildApp} --target ram_report > ${workspaceRoot}\\build\\${input:buildApp}\\ram_report"
+      },
+      "problemMatcher": []
+    },
+    {
+        "label": "make release dir",
+        "type": "shell",
+        "command": "mkdir ${workspaceRoot}/Releases/${config:app_version_str}/",
+        "windows": {
+            "command": "if not exist ${workspaceRoot}\\Releases\\${config:app_version_str}\\${config:board_target}\\ mkdir ${workspaceRoot}\\Releases\\${config:app_version_str}\\${config:board_target}\\"
+        },
+        "problemMatcher": []
+    },
+    {
+        "label": "copy merged app to release",
+        "type": "shell",
+        "command": "cp ${workspaceRoot}/build/apps/bt510/zephyr/merged.hex ${workspaceRoot}/Releases/${config:app_version_str}/${config:board_target}/${config:board_target}-app-merged-${config:app_version_str}.hex",
+        "windows": {
+            "command": "copy ${workspaceRoot}\\build\\apps\\${config:board_target}\\zephyr\\merged.hex ${workspaceRoot}\\Releases\\${config:app_version_str}\\${config:board_target}\\${config:board_target}-app-merged-${config:app_version_str}.hex"
+        },
+        "dependsOn": [
+            "make release dir"
+        ],
+        "problemMatcher": []
+    },
+    {
+        "label": "copy signed ota app to release",
+        "type": "shell",
+        "command": "cp ${workspaceRoot}/build/apps/bt510/zephyr/app_update.bin ${workspaceRoot}/Releases/${config:app_version_str}/${config:board_target}/${config:board_target}-app_update-${config:app_version_str}.bin",
+        "windows": {
+            "command": "copy ${workspaceRoot}\\build\\apps\\${config:board_target}\\zephyr\\app_update.bin ${workspaceRoot}\\Releases\\${config:app_version_str}\\${config:board_target}\\${config:board_target}-app_update-${config:app_version_str}.bin"
+        },
+        "dependsOn": [
+            "make release dir"
+        ],
+        "problemMatcher": []
+    },
+    {
+        //For release, to build 'b' version for OTA testing, wait a few minutes so __TIMESTAMP__ will change and then call this task
+        "label": "create b app in release",
+        "type": "shell",
+        "command": "cp ${workspaceRoot}/build/apps/bt510/zephyr/app_update.hex ${workspaceRoot}/Releases/${config:app_version_str}/${config:board_target}/${config:board_target}-app_update-${config:app_version_str}b.bin",
+        "windows": {
+            "command": "copy ${workspaceRoot}\\build\\apps\\${config:board_target}\\zephyr\\app_update.bin ${workspaceRoot}\\Releases\\${config:app_version_str}\\${config:board_target}\\${config:board_target}-app_update-${config:app_version_str}b.bin"
+        },
+        "dependsOn": [
+            "make release dir",
+            "build app",
+        ],
+        "problemMatcher": []
+    },
+    {
+        //For release, to build 'c' version for OTA testing, wait a few minutes so __TIMESTAMP__ will change and then call this tasky
+        "label": "create c app in release",
+        "type": "shell",
+        "command": "cp ${workspaceRoot}/build/apps/bt510/zephyr/app_update.hex ${workspaceRoot}/Releases/${config:app_version_str}/${config:board_target}/${config:board_target}-app_update-${config:app_version_str}c.bin",
+        "windows": {
+            "command": "copy ${workspaceRoot}\\build\\apps\\${config:board_target}\\zephyr\\app_update.bin ${workspaceRoot}\\Releases\\${config:app_version_str}\\${config:board_target}\\${config:board_target}-app_update-${config:app_version_str}c.bin"
+        },
+        "dependsOn": [
+            "make release dir",
+            "build app",
+        ],
+        "problemMatcher": []
+    },
+    {
+        "label": "create release",
+        "type": "shell",
+        "dependsOn": [
+            //These run in parallel so run build tasks first so that the output image files are ready.
+            "copy merged app to release",
+            "copy signed ota app to release",
+        ],
+        "problemMatcher": []
+    },
+    {
+        "label": "recover",
+        "type": "shell",
+        "command": "nrfjprog -f NRF52 --recover",
+        "windows": {
+            "command": "nrfjprog -f NRF52 --recover"
+        },
+        "dependsOn": [
+        ],
+        "problemMatcher": []
+    },
+    {
+        "label": "reset",
+        "type": "shell",
+        "command": "nrfjprog -f NRF52 --reset",
+        "windows": {
+            "command": "nrfjprog -f NRF52 --reset"
+        },
+        "dependsOn": [
+        ],
+        "problemMatcher": []
+    },
+    {
+        "label": "verify OTA image",
+        "type": "shell",
+        "command": "imgtool verify --key apps/bt510/regalbeloit-rsa2048.pem build/apps/bt510/zephyr/app_update.bin",
+        "windows": {
+            "command": "imgtool verify --key apps/bt510/regalbeloit-rsa2048.pem build/apps/bt510/zephyr/app_update.bin"
+        },
+        "dependsOn": [
+        ],
+        "problemMatcher": []
+    },
+  ]
+}

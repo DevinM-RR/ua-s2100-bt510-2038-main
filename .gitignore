@@ -1,0 +1,10 @@
+build/
+.vscode/.cortex-debug*
+*.nul.old
+.reviewboardrc
+.west/
+.vscode/ipch/
+modules
+net-tools
+
+tools/

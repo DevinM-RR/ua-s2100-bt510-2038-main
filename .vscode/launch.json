@@ -1,0 +1,54 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "build/${input:app}/zephyr/zephyr.elf",
+            "name": "Debug",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "device": "nRF52840_xxAA",
+            "svdFile": "${workspaceRoot}/nrf52840.svd",
+            "interface": "swd",
+            "runToMain": true
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "build/${input:app}/zephyr/zephyr.elf",
+            "name": "Debug Attach",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "device": "nRF52840_xxAA",
+            "svdFile": "${workspaceRoot}/nrf52840.svd",
+            "interface": "swd"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "build/bootloader/mcuboot/boot/zephyr/zephyr/zephyr.elf",
+            "name": "Debug Mcuboot",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "device": "nRF52840_xxAA",
+            "svdFile": "${workspaceRoot}/nrf52840.svd",
+            "interface": "swd",
+            "runToMain": true
+        },
+    ],
+    "inputs": [
+        {
+            "id": "app",
+			"description": "Select an app to debug",
+			"default": "apps/bt510",
+			"type": "pickString",
+			"options": [
+				"apps/bt510"
+			]
+		}
+	]
+}
